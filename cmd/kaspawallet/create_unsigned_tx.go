@@ -11,7 +11,7 @@ import (
 )
 
 func createUnsignedTransaction(conf *createUnsignedTransactionConfig) error {
-	daemonClient, tearDown, err := client.Connect(conf.DaemonAddress)
+	daemonClient, tearDown, err := client.Connect(conf.DaemonAddress, conf.TLSCertFile)
 	if err != nil {
 		return err
 	}

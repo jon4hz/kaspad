@@ -22,6 +22,7 @@ import (
 	"github.com/pkg/errors"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 type server struct {
@@ -45,7 +46,7 @@ type server struct {
 }
 
 // Start starts the kaspawalletd server
-func Start(params *dagconfig.Params, listen, rpcServer string, keysFilePath string, profile string) error {
+func Start(params *dagconfig.Params, listen, rpcServer, keysFilePath, profile, tlsCertFile, tlsCertKey string) error {
 	initLog(defaultLogFile, defaultErrLogFile)
 
 	defer panics.HandlePanic(log, "MAIN", nil)
@@ -53,6 +54,17 @@ func Start(params *dagconfig.Params, listen, rpcServer string, keysFilePath stri
 
 	if profile != "" {
 		profiling.Start(profile, log)
+	}
+
+	var (
+		creds credentials.TransportCredentials
+		err   error
+	)
+	if tlsCertFile != "" && tlsCertKey != "" {
+		creds, err = credentials.NewServerTLSFromFile(tlsCertFile, tlsCertKey)
+		if err != nil {
+			return errors.Wrap(err, "failed to load TLS files")
+		}
 	}
 
 	listener, err := net.Listen("tcp", listen)
@@ -96,7 +108,11 @@ func Start(params *dagconfig.Params, listen, rpcServer string, keysFilePath stri
 		}
 	})
 
-	grpcServer := grpc.NewServer()
+	opts := make([]grpc.ServerOption, 0)
+	if creds != nil {
+		opts = append(opts, grpc.Creds(creds))
+	}
+	grpcServer := grpc.NewServer(opts...)
 	pb.RegisterKaspawalletdServer(grpcServer, serverInstance)
 
 	spawn("grpcServer.Serve", func() {

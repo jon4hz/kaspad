@@ -48,7 +48,7 @@ func sweep(conf *sweepConfig) error {
 		return err
 	}
 
-	daemonClient, tearDown, err := client.Connect(conf.DaemonAddress)
+	daemonClient, tearDown, err := client.Connect(conf.DaemonAddress, conf.TLSCertFile)
 	if err != nil {
 		return err
 	}

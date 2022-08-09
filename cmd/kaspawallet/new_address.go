@@ -3,12 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
+
 	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/client"
 	"github.com/kaspanet/kaspad/cmd/kaspawallet/daemon/pb"
 )
 
 func newAddress(conf *newAddressConfig) error {
-	daemonClient, tearDown, err := client.Connect(conf.DaemonAddress)
+	daemonClient, tearDown, err := client.Connect(conf.DaemonAddress, conf.TLSCertFile)
 	if err != nil {
 		return err
 	}

@@ -22,7 +22,7 @@ func send(conf *sendConfig) error {
 		return errors.Errorf("Cannot use 'send' command for multisig wallet without all of the keys")
 	}
 
-	daemonClient, tearDown, err := client.Connect(conf.DaemonAddress)
+	daemonClient, tearDown, err := client.Connect(conf.DaemonAddress, conf.TLSCertFile)
 	if err != nil {
 		return err
 	}

@@ -10,7 +10,7 @@ import (
 )
 
 func balance(conf *balanceConfig) error {
-	daemonClient, tearDown, err := client.Connect(conf.DaemonAddress)
+	daemonClient, tearDown, err := client.Connect(conf.DaemonAddress, conf.TLSCertFile)
 	if err != nil {
 		return err
 	}

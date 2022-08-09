@@ -48,6 +48,7 @@ type createConfig struct {
 type balanceConfig struct {
 	DaemonAddress string `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
 	Verbose       bool   `long:"verbose" short:"v" description:"Verbose: show addresses with balance"`
+	TLSCertFile   string `long:"tls-cert" description:"File containing the TLS certificate (default: None)"`
 	config.NetworkFlags
 }
 
@@ -58,12 +59,14 @@ type sendConfig struct {
 	ToAddress     string   `long:"to-address" short:"t" description:"The public address to send Kaspa to" required:"true"`
 	FromAddresses []string `long:"from-address" short:"a" description:"Specific public address to send Kaspa from. Use multiple times to accept several addresses" required:"false"`
 	SendAmount    float64  `long:"send-amount" short:"v" description:"An amount to send in Kaspa (e.g. 1234.12345678)" required:"true"`
+	TLSCertFile   string   `long:"tls-cert" description:"File containing the TLS certificate (default: None)"`
 	config.NetworkFlags
 }
 
 type sweepConfig struct {
 	PrivateKey    string `long:"private-key" short:"k" description:"Private key in hex format"`
 	DaemonAddress string `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
+	TLSCertFile   string `long:"tls-cert" description:"File containing the TLS certificate (default: None)"`
 	config.NetworkFlags
 }
 
@@ -72,6 +75,7 @@ type createUnsignedTransactionConfig struct {
 	ToAddress     string   `long:"to-address" short:"t" description:"The public address to send Kaspa to" required:"true"`
 	FromAddresses []string `long:"from-address" short:"a" description:"Specific public address to send Kaspa from. Use multiple times to accept several addresses" required:"false"`
 	SendAmount    float64  `long:"send-amount" short:"v" description:"An amount to send in Kaspa (e.g. 1234.12345678)" required:"true"`
+	TLSCertFile   string   `long:"tls-cert" description:"File containing the TLS certificate (default: None)"`
 	config.NetworkFlags
 }
 
@@ -87,6 +91,7 @@ type broadcastConfig struct {
 	DaemonAddress    string `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
 	Transactions     string `long:"transaction" short:"t" description:"The signed transaction to broadcast (encoded in hex)"`
 	TransactionsFile string `long:"transaction-file" short:"F" description:"The file containing the unsigned transaction to sign on (encoded in hex)"`
+	TLSCertFile      string `long:"tls-cert" description:"File containing the TLS certificate (default: None)"`
 	config.NetworkFlags
 }
 
@@ -99,20 +104,24 @@ type parseConfig struct {
 
 type showAddressesConfig struct {
 	DaemonAddress string `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
+	TLSCertFile   string `long:"tls-cert" description:"File containing the TLS certificate (default: None)"`
 	config.NetworkFlags
 }
 
 type newAddressConfig struct {
 	DaemonAddress string `long:"daemonaddress" short:"d" description:"Wallet daemon server to connect to"`
+	TLSCertFile   string `long:"tls-cert" description:"File containing the TLS certificate (default: None)"`
 	config.NetworkFlags
 }
 
 type startDaemonConfig struct {
-	KeysFile  string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.kaspawallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Kaspawallet\\key.json (Windows))"`
-	Password  string `long:"password" short:"p" description:"Wallet password"`
-	RPCServer string `long:"rpcserver" short:"s" description:"RPC server to connect to"`
-	Listen    string `short:"l" long:"listen" description:"Address to listen on (default: 0.0.0.0:8082)"`
-	Profile   string `long:"profile" description:"Enable HTTP profiling on given port -- NOTE port must be between 1024 and 65536"`
+	KeysFile    string `long:"keys-file" short:"f" description:"Keys file location (default: ~/.kaspawallet/keys.json (*nix), %USERPROFILE%\\AppData\\Local\\Kaspawallet\\key.json (Windows))"`
+	Password    string `long:"password" short:"p" description:"Wallet password"`
+	RPCServer   string `long:"rpcserver" short:"s" description:"RPC server to connect to"`
+	Listen      string `short:"l" long:"listen" description:"Address to listen on (default: 0.0.0.0:8082)"`
+	Profile     string `long:"profile" description:"Enable HTTP profiling on given port -- NOTE port must be between 1024 and 65536"`
+	TLSCertFile string `long:"tls-cert" description:"File containing the TLS certificate (default: None)"`
+	TLSKeyFile  string `long:"tls-key" description:"File containing the TLS key (default: None)"`
 	config.NetworkFlags
 }
 
